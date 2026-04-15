@@ -1,0 +1,83 @@
+from abc import ABC, abstractclassmethod
+
+
+class Bebida(ABC):
+    def descricao(self)->str:
+        pass
+    def custo(self) -> float:
+        pass
+    
+class Expresso(Bebida):
+    def descricao(self) -> str:
+        return "Café Expresso"
+    def custo(self) -> float:
+        return 1.50
+
+class Cappuccino(Bebida):
+    def descricao(self) -> str:
+        return "Cappuccino"
+    def custo(self) -> float:
+        return 3.00
+
+class Cha(Bebida):
+    def descricao(self) -> str:
+        return "Chá Verde"
+    def custo(self) -> float:
+        return 2.50
+
+    
+# DECORADOR
+class Adicional(Bebida):
+    
+    def __init__(self, bebida: Bebida):
+        self._bebida = bebida
+        
+    def descricao(self) -> str:
+
+        return self._bebida.descricao()
+        
+    def custo(self) -> float:
+        return self._bebida.custo()
+    
+class Leite(Adicional):
+    
+    def descricao(self) -> str:
+        return self._bebida.descricao()+", com leite"
+    def custo(self) -> str:
+        return self._bebida.custo() + 1.0
+
+class Chantilly(Adicional):
+    def descricao(self) -> str:
+        return self._bebida.descricao()+", com chantilly"
+    def custo(self) -> float: 
+        return self._bebida.custo()+ 3.00
+
+class Canela(Adicional):
+    def descricao(self) -> str:
+        return self._bebida.descricao()+", com Canela"
+    def custo(self) -> float: 
+        return self._bebida.custo()+ 1.00
+    
+class CaldaChocolate(Adicional):
+    def descricao(self) -> str:
+        return self._bebida.descricao()+", com Calda de Chocolate"
+    def custo(self) -> float: 
+        return self._bebida.custo()+ 5.00
+
+
+if __name__ == "__main__":
+        
+    bebida1 = Expresso()
+    bebida2 = Cappuccino()
+    bebida3 = Cha()
+    
+    cafe_leite = Leite(bebida1)
+    cafe_leite_chantilly = Chantilly(cafe_leite)
+    print(f"Pedido: {cafe_leite_chantilly.descricao()} e vai custar {cafe_leite_chantilly.custo():.2f}")
+    
+    capuccino_chocolate = CaldaChocolate(bebida2)
+    print(f"Pedido: {capuccino_chocolate.descricao()} e vai custar {capuccino_chocolate.custo():.2f}")
+    
+    cha_canela = Canela(bebida3)
+    print(f"Pedido: {cha_canela.descricao()} e vai custar {cha_canela.custo():.2f}")
+    
